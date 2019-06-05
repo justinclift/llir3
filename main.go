@@ -95,38 +95,41 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 		two   = constant.NewInt(i32, 2)
 		three = constant.NewInt(i32, 3)
 		four  = constant.NewInt(i32, 4)
-		seven = constant.NewInt(i32, 7)
 	)
 
 	// Unnamed metadata definitions.
 
 	// DICompileUnit
-	//    !0 = distinct !DICompileUnit(language: DW_LANG_C99, file: !1, producer: "clang version 8.0.0 (tags/RELEASE_800/final)", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, enums: !2, nameTableKind: None)
+	//    !0 = distinct !DICompileUnit(language: DW_LANG_C99, file: !1, producer: "clang version 8.0.1 (https://git.llvm.org/git/clang.git ccfe04576c13497b9c422ceef0b6efe99077a392) (https://git.llvm.org/git/llvm.git
+	//      295e7b4486abfc0f01e6d22276931165f324c61e)", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, enums: !2, nameTableKind: None)
 	diCompileUnit := &metadata.DICompileUnit{
-		MetadataID:   -1,
-		Distinct:     true,
-		Language:     enum.DwarfLangC99,
-		Producer:     "clang version 8.0.0 (tags/RELEASE_800/final)",
-		EmissionKind: enum.EmissionKindFullDebug,
+		MetadataID:     -1,
+		Distinct:       true,
+		Language:       enum.DwarfLangC99,
+		Producer:       "clang version 8.0.1 (https://git.llvm.org/git/clang.git ccfe04576c13497b9c422ceef0b6efe99077a392) (https://git.llvm.org/git/llvm.git 295e7b4486abfc0f01e6d22276931165f324c61e)",
+		IsOptimized:    false,
+		RuntimeVersion: 0,
+		EmissionKind:   enum.EmissionKindFullDebug,
+		NameTableKind:  enum.NameTableKindNone,
 	}
 
 	// DIFile
-	//    !1 = !DIFile(filename: "foo.c", directory: "/home/u/Desktop/foo")
+	//    !1 = !DIFile(filename: "target.c", directory: "/home/jc/git_repos2/llir3")
 	diFile := &metadata.DIFile{
 		MetadataID: -1,
-		Filename:   "foo.c",
-		Directory:  "/home/u/Desktop/foo",
+		Filename:   "target.c",
+		Directory:  "/home/jc/git_repos2/llir3",
 	}
 	diCompileUnit.File = diFile
 
-	// Empty tuple.
+	// Empty tuple
 	//    !2 = !{}
 	emptyTuple := &metadata.Tuple{
 		MetadataID: -1,
 	}
 	diCompileUnit.Enums = emptyTuple
 
-	// Dwarf metadata.
+	// Dwarf metadata
 	//    !3 = !{i32 2, !"Dwarf Version", i32 4}
 	dwarfVersion := &metadata.Tuple{
 		MetadataID: -1,
@@ -142,24 +145,14 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 		MetadataID: -1,
 		Fields:     []metadata.Field{one, &metadata.String{Value: "wchar_size"}, four},
 	}
-	//    !6 = !{i32 7, !"PIC Level", i32 2}
-	picLevel := &metadata.Tuple{
-		MetadataID: -1,
-		Fields:     []metadata.Field{seven, &metadata.String{Value: "PIC Level"}, two},
-	}
-	//    !7 = !{i32 7, !"PIE Level", i32 2}
-	pieLevel := &metadata.Tuple{
-		MetadataID: -1,
-		Fields:     []metadata.Field{seven, &metadata.String{Value: "PIE Level"}, two},
-	}
-	//    !8 = !{!"clang version 8.0.0 (tags/RELEASE_800/final)"}
+	//    !6 = !{!"clang version 8.0.1 (https://git.llvm.org/git/clang.git ccfe04576c13497b9c422ceef0b6efe99077a392) (https://git.llvm.org/git/llvm.git 295e7b4486abfc0f01e6d22276931165f324c61e)"}
 	clangVersion := &metadata.Tuple{
 		MetadataID: -1,
-		Fields:     []metadata.Field{&metadata.String{Value: "clang version 8.0.0 (tags/RELEASE_800/final)"}},
+		Fields:     []metadata.Field{&metadata.String{Value: "clang version 8.0.1 (https://git.llvm.org/git/clang.git ccfe04576c13497b9c422ceef0b6efe99077a392) (https://git.llvm.org/git/llvm.git 295e7b4486abfc0f01e6d22276931165f324c61e)"}},
 	}
 
 	// DISubprogram
-	//    !9 = distinct !DISubprogram(name: "foo", scope: !1, file: !1, line: 1, type: !10, scopeLine: 1, flags: DIFlagPrototyped, spFlags: DISPFlagDefinition, unit: !0, retainedNodes: !2)
+	//    !7 = distinct !DISubprogram(name: "foo", scope: !1, file: !1, line: 1, type: !8, scopeLine: 1, flags: DIFlagPrototyped, spFlags: DISPFlagDefinition, unit: !0, retainedNodes: !2)
 	diSubprogramFoo := &metadata.DISubprogram{
 		MetadataID:    -1,
 		Distinct:      true,
@@ -175,21 +168,21 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 	}
 
 	// DISubroutineType
-	//    !10 = !DISubroutineType(types: !11)
+	//    !8 = !DISubroutineType(types: !9)
 	diSubroutineType := &metadata.DISubroutineType{
 		MetadataID: -1,
 	}
 	diSubprogramFoo.Type = diSubroutineType
 
 	// Types tuple.
-	//    !11 = !{!12, !12, !12}
+	//    !9 = !{!10, !10, !10}
 	typesTuple := &metadata.Tuple{
 		MetadataID: -1,
 	}
 	diSubroutineType.Types = typesTuple
 
 	// DIBasicType
-	//    !12 = !DIBasicType(name: "int", size: 32, encoding: DW_ATE_signed)
+	//    !10 = !DIBasicType(name: "int", size: 32, encoding: DW_ATE_signed)
 	diBasicTypeI32 := &metadata.DIBasicType{
 		MetadataID: -1,
 		Name:       "int",
@@ -199,7 +192,7 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 	typesTuple.Fields = []metadata.Field{diBasicTypeI32, diBasicTypeI32, diBasicTypeI32}
 
 	// DILocalVariable
-	//    !13 = !DILocalVariable(name: "a", arg: 1, scope: !9, file: !1, line: 1, type: !12)
+	//    !11 = !DILocalVariable(name: "a", arg: 1, scope: !7, file: !1, line: 1, type: !10)
 	diLocalVarA = &metadata.DILocalVariable{
 		MetadataID: -1,
 		Name:       "a",
@@ -211,7 +204,7 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 	}
 
 	// DILocation
-	//    !14 = !DILocation(line: 1, column: 13, scope: !9)
+	//    !12 = !DILocation(line: 1, column: 13, scope: !7)
 	diLocA = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       1,
@@ -220,7 +213,7 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 	}
 
 	// DILocalVariable
-	//    !15 = !DILocalVariable(name: "b", arg: 2, scope: !9, file: !1, line: 1, type: !12)
+	//    !13 = !DILocalVariable(name: "b", arg: 2, scope: !7, file: !1, line: 1, type: !10)
 	diLocalVarB = &metadata.DILocalVariable{
 		MetadataID: -1,
 		Name:       "b",
@@ -232,7 +225,7 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 	}
 
 	// DILocation
-	//    !16 = !DILocation(line: 1, column: 20, scope: !9)
+	//    !14 = !DILocation(line: 1, column: 20, scope: !7)
 	diLocB = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       1,
@@ -241,7 +234,7 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 	}
 
 	// DILocalVariable
-	//    !17 = !DILocalVariable(name: "sum", scope: !9, file: !1, line: 2, type: !12)
+	//    !15 = !DILocalVariable(name: "sum", scope: !7, file: !1, line: 2, type: !10)
 	diLocalVarSum = &metadata.DILocalVariable{
 		MetadataID: -1,
 		Name:       "sum",
@@ -252,11 +245,65 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 	}
 
 	// DILocation
-	//    !18 = !DILocation(line: 2, column: 6, scope: !9)
+	//    !16 = !DILocation(line: 2, column: 9, scope: !7)
 	diLocSum = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       2,
-		Column:     6,
+		Column:     9,
+		Scope:      diSubprogramFoo,
+	}
+
+	// DILocation
+	//    !17 = !DILocation(line: 3, column: 11, scope: !7)
+	diLocA2 := &metadata.DILocation{
+		MetadataID: -1,
+		Line:       3,
+		Column:     11,
+		Scope:      diSubprogramFoo,
+	}
+
+	// DILocation
+	//    !18 = !DILocation(line: 3, column: 15, scope: !7)
+	diLocB2 := &metadata.DILocation{
+		MetadataID: -1,
+		Line:       3,
+		Column:     15,
+		Scope:      diSubprogramFoo,
+	}
+
+	// DILocation
+	//    !19 = !DILocation(line: 3, column: 13, scope: !7)
+	diLocPlus := &metadata.DILocation{
+		MetadataID: -1,
+		Line:       3,
+		Column:     13,
+		Scope:      diSubprogramFoo,
+	}
+
+	// DILocation
+	//    !20 = !DILocation(line: 3, column: 9, scope: !7)
+	diLocEquals := &metadata.DILocation{
+		MetadataID: -1,
+		Line:       3,
+		Column:     9,
+		Scope:      diSubprogramFoo,
+	}
+
+	// DILocation
+	//    !21 = !DILocation(line: 4, column: 12, scope: !7)
+	diLocSum3 := &metadata.DILocation{
+		MetadataID: -1,
+		Line:       4,
+		Column:     12,
+		Scope:      diSubprogramFoo,
+	}
+
+	// DILocation
+	//    !22 = !DILocation(line: 4, column: 5, scope: !7)
+	diLocReturn := &metadata.DILocation{
+		MetadataID: -1,
+		Line:       4,
+		Column:     5,
 		Scope:      diSubprogramFoo,
 	}
 
@@ -266,8 +313,6 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 	m.MetadataDefs = append(m.MetadataDefs, dwarfVersion)
 	m.MetadataDefs = append(m.MetadataDefs, debugInfoVersion)
 	m.MetadataDefs = append(m.MetadataDefs, wcharSize)
-	m.MetadataDefs = append(m.MetadataDefs, picLevel)
-	m.MetadataDefs = append(m.MetadataDefs, pieLevel)
 	m.MetadataDefs = append(m.MetadataDefs, clangVersion)
 	m.MetadataDefs = append(m.MetadataDefs, diSubprogramFoo)
 	m.MetadataDefs = append(m.MetadataDefs, diSubroutineType)
@@ -279,6 +324,68 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 	m.MetadataDefs = append(m.MetadataDefs, diLocB)
 	m.MetadataDefs = append(m.MetadataDefs, diLocalVarSum)
 	m.MetadataDefs = append(m.MetadataDefs, diLocSum)
+	m.MetadataDefs = append(m.MetadataDefs, diLocA2)
+	m.MetadataDefs = append(m.MetadataDefs, diLocB2)
+	m.MetadataDefs = append(m.MetadataDefs, diLocPlus)
+	m.MetadataDefs = append(m.MetadataDefs, diLocEquals)
+	m.MetadataDefs = append(m.MetadataDefs, diLocSum3)
+	m.MetadataDefs = append(m.MetadataDefs, diLocReturn)
+
+	// DISubprogram
+	//    !23 = distinct !DISubprogram(name: "main", scope: !1, file: !1, line: 7, type: !24, scopeLine: 7, spFlags: DISPFlagDefinition, unit: !0, retainedNodes: !2)
+	diSubprogramMain := &metadata.DISubprogram{
+		MetadataID:    -1,
+		Distinct:      true,
+		Name:          "main",
+		Scope:         diFile,
+		File:          diFile,
+		Line:          7,
+		ScopeLine:     7,
+		Flags:         enum.DIFlagPrototyped,
+		SPFlags:       enum.DISPFlagDefinition,
+		Unit:          diCompileUnit,
+		RetainedNodes: emptyTuple,
+	}
+
+	// DISubroutineType
+	//    !24 = !DISubroutineType(types: !25)
+	diSubroutineTypeMain := &metadata.DISubroutineType{
+		MetadataID: -1,
+	}
+	diSubprogramMain.Type = diSubroutineTypeMain
+
+	// Types tuple
+	//    !25 = !{!10}
+	typesTupleMain := &metadata.Tuple{
+		MetadataID: -1,
+	}
+	diSubroutineTypeMain.Types = typesTupleMain
+	typesTupleMain.Fields = []metadata.Field{diBasicTypeI32}
+
+	// DILocation
+	//    !26 = !DILocation(line: 8, column: 12, scope: !23)
+	diLocFoo := &metadata.DILocation{
+		MetadataID: -1,
+		Line:       8,
+		Column:     12,
+		Scope:      diSubprogramMain,
+	}
+
+	// DILocation
+	//    !27 = !DILocation(line: 8, column: 5, scope: !23)
+	diLocReturn2 := &metadata.DILocation{
+		MetadataID: -1,
+		Line:       8,
+		Column:     5,
+		Scope:      diSubprogramMain,
+	}
+
+	// Attach the debugging info to the module
+	m.MetadataDefs = append(m.MetadataDefs, diSubprogramMain)
+	m.MetadataDefs = append(m.MetadataDefs, diSubroutineTypeMain)
+	m.MetadataDefs = append(m.MetadataDefs, typesTupleMain)
+	m.MetadataDefs = append(m.MetadataDefs, diLocFoo)
+	m.MetadataDefs = append(m.MetadataDefs, diLocReturn2)
 
 	// Named metadata definitions.
 	//    !llvm.dbg.cu = !{!0}
@@ -287,13 +394,13 @@ func addMetadata(m *ir.Module) (diLocalVarA, diLocalVarB, diLocalVarSum *metadat
 		Nodes: []metadata.Node{diCompileUnit},
 	}
 	m.NamedMetadataDefs["llvm.dbg.cu"] = llvmDbgCu
-	//    !llvm.module.flags = !{!3, !4, !5, !6, !7}
+	//    !llvm.module.flags = !{!3, !4, !5}
 	llvmModuleFlags := &metadata.NamedDef{
 		Name:  "llvm.module.flags",
-		Nodes: []metadata.Node{dwarfVersion, debugInfoVersion, wcharSize, picLevel, pieLevel},
+		Nodes: []metadata.Node{dwarfVersion, debugInfoVersion, wcharSize},
 	}
 	m.NamedMetadataDefs["llvm.module.flags"] = llvmModuleFlags
-	//    !llvm.ident = !{!8}
+	//    !llvm.ident = !{!6}
 	llvmIdent := &metadata.NamedDef{
 		Name:  "llvm.ident",
 		Nodes: []metadata.Node{clangVersion},
