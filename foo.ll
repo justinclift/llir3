@@ -1,27 +1,29 @@
 declare void @llvm.dbg.declare(metadata, metadata, metadata)
 
-define i32 @foo(i32, i32) {
+define i32 @foo(i32, i32) !dbg !7 {
 ; <label>:2
-	%3 = alloca i32
-	%4 = alloca i32
-	%5 = alloca i32
-	store i32 %0, i32* %3
+	%3 = alloca i32, align 4
+	%4 = alloca i32, align 4
+	%5 = alloca i32, align 4
+	store i32 %0, i32* %3, align 4
 	call void @llvm.dbg.declare(metadata i32* %3, metadata !11, metadata !DIExpression()), !dbg !12
-	store i32 %1, i32* %4
+	store i32 %1, i32* %4, align 4
 	call void @llvm.dbg.declare(metadata i32* %4, metadata !13, metadata !DIExpression()), !dbg !14
 	call void @llvm.dbg.declare(metadata i32* %5, metadata !15, metadata !DIExpression()), !dbg !16
-	%6 = load i32, i32* %3
-	%7 = load i32, i32* %4
-	%8 = add i32 %6, %7
-	store i32 %8, i32* %5
-	%9 = load i32, i32* %5
-	ret i32 %9
+	%6 = load i32, i32* %3, align 4, !dbg !17
+	%7 = load i32, i32* %4, align 4, !dbg !18
+	%8 = add nsw i32 %6, %7, !dbg !19
+	store i32 %8, i32* %5, align 4, !dbg !20
+	%9 = load i32, i32* %5, align 4, !dbg !21
+	ret i32 %9, !dbg !22
 }
 
-define i32 @main() {
+define i32 @main() !dbg !23 {
 ; <label>:0
-	%1 = call i32 @foo(i32 12, i32 30)
-	ret i32 %1
+	%1 = alloca i32, align 4
+	store i32 0, i32* %1, align 4
+	%2 = call i32 @foo(i32 12, i32 30), !dbg !26
+	ret i32 %2, !dbg !27
 }
 
 !llvm.dbg.cu = !{!0}
@@ -51,7 +53,7 @@ define i32 @main() {
 !20 = !DILocation(line: 3, column: 9, scope: !7)
 !21 = !DILocation(line: 4, column: 12, scope: !7)
 !22 = !DILocation(line: 4, column: 5, scope: !7)
-!23 = distinct !DISubprogram(name: "main", scope: !1, file: !1, line: 7, type: !24, scopeLine: 7, flags: DIFlagPrototyped, spFlags: DISPFlagDefinition, unit: !0, retainedNodes: !2)
+!23 = distinct !DISubprogram(name: "main", scope: !1, file: !1, line: 7, type: !24, scopeLine: 7, spFlags: DISPFlagDefinition, unit: !0, retainedNodes: !2)
 !24 = !DISubroutineType(types: !25)
 !25 = !{!10}
 !26 = !DILocation(line: 8, column: 12, scope: !23)

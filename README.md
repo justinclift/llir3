@@ -5,17 +5,28 @@ This is the Go code from Step 3 of:
 Being worked on to add enough DWARF metadata, so that `-g` on the clang
 command line works and embeds decent ".debug_*" sections.
 
+When main.go is run, it will generate an LLVM IR file to stdout, so you'll
+probably want to redirect it to a file:
+
+    $ go run main.go > foo.ll
+
+This .ll file can be compiled to a Linux executable using clang:
+
     $ clang --target=x86_64-pc-linux-gnu -g -Wno-override-module -o foo foo.ll
 
-The goal is to have DWARF added to Wasm binaries, so a working debugger for
-Wasm can be created.
+To view the DWARF debugging sections, use `llvm-dwarfdump`:
+
+    $ llvm-dwarfdump -color foo | more
+
+The goal is to add DWARF to Wasm binaries, so a working debugger for Wasm can
+be created.
 
 A working command to generate Wasm from the .ll is:
 
     $ clang --compile --target=wasm32-unknown-unknown-wasm -g -Wno-override-module -o foo.wasm foo.ll
 
-Note that the `--compile` option there is required.  Without it, clang will
-automatically attempt to link the Wasm for the current system (and fail):
+Note that the `--compile` option to clang is required.  Without it, clang will
+attempt to link the Wasm for the current system, and fail:
 
 ```
 $ clang --target=wasm32-unknown-unknown-wasm -g -Wno-override-module -o foo.wasm foo.ll

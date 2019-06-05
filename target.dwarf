@@ -1,0 +1,64 @@
+target:	file format ELF64-x86-64
+
+.debug_info contents:
+0x00000000: Compile Unit: length = 0x0000008b version = 0x0004 abbr_offset = 0x0000 addr_size = 0x08 (next unit at 0x0000008f)
+[0;33m
+0x0000000b: [0m[0;34mDW_TAG_compile_unit[0m
+              [0;36mDW_AT_producer[0m	([0;33m[0m[0;32m"clang version 8.0.1 (https://git.llvm.org/git/clang.git ccfe04576c13497b9c422ceef0b6efe99077a392) (https://git.llvm.org/git/llvm.git 295e7b4486abfc0f01e6d22276931165f324c61e)"[0m)
+              [0;36mDW_AT_language[0m	([0;35mDW_LANG_C99[0m)
+              [0;36mDW_AT_name[0m	([0;33m[0m[0;32m"target.c"[0m)
+              [0;36mDW_AT_stmt_list[0m	([0;33m[0m0x00000000)
+              [0;36mDW_AT_comp_dir[0m	([0;33m[0m[0;32m"/home/jc/git_repos2/llir3"[0m)
+              [0;36mDW_AT_low_pc[0m	([0;33m[0m0x00000000004004b0)
+              [0;36mDW_AT_high_pc[0m	(0x00000000004004f4)
+[0;33m
+0x0000002a: [0m[0;34m  DW_TAG_subprogram[0m
+                [0;36mDW_AT_low_pc[0m	([0;33m[0m0x00000000004004b0)
+                [0;36mDW_AT_high_pc[0m	(0x00000000004004c8)
+                [0;36mDW_AT_frame_base[0m	(DW_OP_reg6 RBP)
+                [0;36mDW_AT_name[0m	([0;33m[0m[0;32m"foo"[0m)
+                [0;36mDW_AT_decl_file[0m	([0;32m"/home/jc/git_repos2/llir3/target.c"[0m)
+                [0;36mDW_AT_decl_line[0m	(1)
+                [0;36mDW_AT_prototyped[0m	([0;33m[0mtrue)
+                [0;36mDW_AT_type[0m	([0;33m[0m[0;33m0x00000087[0m "int")
+                [0;36mDW_AT_external[0m	([0;33m[0mtrue)
+[0;33m
+0x00000043: [0m[0;34m    DW_TAG_formal_parameter[0m
+                  [0;36mDW_AT_location[0m	(DW_OP_fbreg -4)
+                  [0;36mDW_AT_name[0m	([0;33m[0m[0;32m"a"[0m)
+                  [0;36mDW_AT_decl_file[0m	([0;32m"/home/jc/git_repos2/llir3/target.c"[0m)
+                  [0;36mDW_AT_decl_line[0m	(1)
+                  [0;36mDW_AT_type[0m	([0;33m[0m[0;33m0x00000087[0m "int")
+[0;33m
+0x00000051: [0m[0;34m    DW_TAG_formal_parameter[0m
+                  [0;36mDW_AT_location[0m	(DW_OP_fbreg -8)
+                  [0;36mDW_AT_name[0m	([0;33m[0m[0;32m"b"[0m)
+                  [0;36mDW_AT_decl_file[0m	([0;32m"/home/jc/git_repos2/llir3/target.c"[0m)
+                  [0;36mDW_AT_decl_line[0m	(1)
+                  [0;36mDW_AT_type[0m	([0;33m[0m[0;33m0x00000087[0m "int")
+[0;33m
+0x0000005f: [0m[0;34m    DW_TAG_variable[0m
+                  [0;36mDW_AT_location[0m	(DW_OP_fbreg -12)
+                  [0;36mDW_AT_name[0m	([0;33m[0m[0;32m"sum"[0m)
+                  [0;36mDW_AT_decl_file[0m	([0;32m"/home/jc/git_repos2/llir3/target.c"[0m)
+                  [0;36mDW_AT_decl_line[0m	(2)
+                  [0;36mDW_AT_type[0m	([0;33m[0m[0;33m0x00000087[0m "int")
+[0;33m
+0x0000006d: [0m    NULL
+[0;33m
+0x0000006e: [0m[0;34m  DW_TAG_subprogram[0m
+                [0;36mDW_AT_low_pc[0m	([0;33m[0m0x00000000004004d0)
+                [0;36mDW_AT_high_pc[0m	(0x00000000004004f4)
+                [0;36mDW_AT_frame_base[0m	(DW_OP_reg6 RBP)
+                [0;36mDW_AT_name[0m	([0;33m[0m[0;32m"main"[0m)
+                [0;36mDW_AT_decl_file[0m	([0;32m"/home/jc/git_repos2/llir3/target.c"[0m)
+                [0;36mDW_AT_decl_line[0m	(7)
+                [0;36mDW_AT_type[0m	([0;33m[0m[0;33m0x00000087[0m "int")
+                [0;36mDW_AT_external[0m	([0;33m[0mtrue)
+[0;33m
+0x00000087: [0m[0;34m  DW_TAG_base_type[0m
+                [0;36mDW_AT_name[0m	([0;33m[0m[0;32m"int"[0m)
+                [0;36mDW_AT_encoding[0m	([0;35mDW_ATE_signed[0m)
+                [0;36mDW_AT_byte_size[0m	([0;33m[0m0x04)
+[0;33m
+0x0000008e: [0m  NULL
