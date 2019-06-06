@@ -22,7 +22,7 @@ var (
 func main() {
 	// Convenience constants.
 	var (
-		zero = constant.NewInt(i32, 0)
+		zero   = constant.NewInt(i32, 0)
 		twelve = constant.NewInt(i32, 12)
 		thirty = constant.NewInt(i32, 30)
 	)
@@ -35,6 +35,46 @@ func main() {
 	m.DataLayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
 	m.TargetTriple = "x86_64-pc-linux-gnu"
 	m.SourceFilename = "target.c"
+
+	// Add the group attribute definitions
+	// attributes #0 = { noinline nounwind optnone uwtable "correctly-rounded-divide-sqrt-fp-math"="false"
+	// "disable-tail-calls"="false" "less-precise-fpmad"="false" "min-legal-vector-width"="0"
+	// "no-frame-pointer-elim"="true" "no-frame-pointer-elim-non-leaf" "no-infs-fp-math"="false"
+	// "no-jump-tables"="false" "no-nans-fp-math"="false" "no-signed-zeros-fp-math"="false" "no-trapping-math"="false"
+	// "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+fxsr,+mmx,+sse,+sse2,+x87"
+	// "unsafe-fp-math"="false" "use-soft-float"="false" }
+	atGrp0 := ir.AttrGroupDef{ID: 0, FuncAttrs: []ir.FuncAttribute{
+		enum.FuncAttrNoInline,
+		enum.FuncAttrNoUnwind,
+		enum.FuncAttrOptNone,
+		enum.FuncAttrUwtable,
+		ir.AttrPair{Key: "correctly-rounded-divide-sqrt-fp-math", Value: "false"},
+		ir.AttrPair{Key: "disable-tail-calls", Value: "false"},
+		ir.AttrPair{Key: "less-precise-fpmad", Value: "false"},
+		ir.AttrPair{Key: "min-legal-vector-width", Value: "0"},
+		ir.AttrPair{Key: "no-frame-pointer-elim", Value: "true"},
+		ir.AttrString("no-frame-pointer-elim-non-leaf"),
+		ir.AttrPair{Key: "no-infs-fp-math", Value: "false"},
+		ir.AttrPair{Key: "no-jump-tables", Value: "false"},
+		ir.AttrPair{Key: "no-nans-fp-math", Value: "false"},
+		ir.AttrPair{Key: "no-signed-zeros-fp-math", Value: "false"},
+		ir.AttrPair{Key: "no-trapping-math", Value: "false"},
+		ir.AttrPair{Key: "stack-protector-buffer-size", Value: "8"},
+		ir.AttrPair{Key: "target-cpu", Value: "x86-64"},
+		ir.AttrPair{Key: "target-features", Value: "+fxsr,+mmx,+sse,+sse2,+x87"},
+		ir.AttrPair{Key: "unsafe-fp-math", Value: "false"},
+		ir.AttrPair{Key: "use-soft-float", Value: "false"},
+	},
+	}
+	m.AttrGroupDefs = append(m.AttrGroupDefs, &atGrp0)
+
+	// attributes #1 = { nounwind readnone speculatable }
+	atGrp1 := ir.AttrGroupDef{ID: 1, FuncAttrs: []ir.FuncAttribute{
+		enum.FuncAttrNoUnwind,
+		enum.FuncAttrReadNone,
+		enum.FuncAttrSpeculatable},
+	}
+	m.AttrGroupDefs = append(m.AttrGroupDefs, &atGrp1)
 
 	// Empty DIExpression
 	//    !DIExpression()
@@ -54,9 +94,7 @@ func main() {
 
 	// Add the function attributes
 	// ; Function Attrs: nounwind readnone speculatable
-	llvmDbgDeclare.FuncAttrs = append(llvmDbgDeclare.FuncAttrs, enum.FuncAttrNoUnwind)
-	llvmDbgDeclare.FuncAttrs = append(llvmDbgDeclare.FuncAttrs, enum.FuncAttrReadNone)
-	llvmDbgDeclare.FuncAttrs = append(llvmDbgDeclare.FuncAttrs, enum.FuncAttrSpeculatable)
+	llvmDbgDeclare.FuncAttrs = append(llvmDbgDeclare.FuncAttrs, &atGrp1)
 
 	// Define the "foo" function
 	//   `int foo(int a, int b)`
@@ -70,10 +108,7 @@ func main() {
 
 	// Add the function attributes
 	// ; Function Attrs: noinline nounwind optnone uwtable
-	fooFunc.FuncAttrs = append(fooFunc.FuncAttrs, enum.FuncAttrNoInline)
-	fooFunc.FuncAttrs = append(fooFunc.FuncAttrs, enum.FuncAttrNoUnwind)
-	fooFunc.FuncAttrs = append(fooFunc.FuncAttrs, enum.FuncAttrOptNone)
-	fooFunc.FuncAttrs = append(fooFunc.FuncAttrs, enum.FuncAttrSpeculatable)
+	fooFunc.FuncAttrs = append(fooFunc.FuncAttrs, &atGrp0)
 
 	// Create LLVM Block, for containing the subsequent function code
 	fooEntry := fooFunc.NewBlock("")
@@ -147,10 +182,7 @@ func main() {
 
 	// Add the function attributes
 	// ; Function Attrs: noinline nounwind optnone uwtable
-	mainFunc.FuncAttrs = append(mainFunc.FuncAttrs, enum.FuncAttrNoInline)
-	mainFunc.FuncAttrs = append(mainFunc.FuncAttrs, enum.FuncAttrNoUnwind)
-	mainFunc.FuncAttrs = append(mainFunc.FuncAttrs, enum.FuncAttrOptNone)
-	mainFunc.FuncAttrs = append(mainFunc.FuncAttrs, enum.FuncAttrSpeculatable)
+	mainFunc.FuncAttrs = append(mainFunc.FuncAttrs, &atGrp0)
 
 	// Create LLVM Block, for containing the subsequent function code
 	mainEntry := mainFunc.NewBlock("")

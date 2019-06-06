@@ -10,12 +10,12 @@ foo:	file format ELF64-x86-64
               [0;36mDW_AT_stmt_list[0m	([0;33m[0m0x00000000)
               [0;36mDW_AT_comp_dir[0m	([0;33m[0m[0;32m"/home/jc/git_repos2/llir3"[0m)
               [0;36mDW_AT_low_pc[0m	([0;33m[0m0x00000000004004b0)
-              [0;36mDW_AT_high_pc[0m	(0x00000000004004ea)
+              [0;36mDW_AT_high_pc[0m	(0x00000000004004f4)
 [0;33m
 0x0000002a: [0m[0;34m  DW_TAG_subprogram[0m
                 [0;36mDW_AT_low_pc[0m	([0;33m[0m0x00000000004004b0)
-                [0;36mDW_AT_high_pc[0m	(0x00000000004004c9)
-                [0;36mDW_AT_frame_base[0m	(DW_OP_reg7 RSP)
+                [0;36mDW_AT_high_pc[0m	(0x00000000004004c8)
+                [0;36mDW_AT_frame_base[0m	(DW_OP_reg6 RBP)
                 [0;36mDW_AT_name[0m	([0;33m[0m[0;32m"foo"[0m)
                 [0;36mDW_AT_decl_file[0m	([0;32m"/home/jc/git_repos2/llir3/target.c"[0m)
                 [0;36mDW_AT_decl_line[0m	(1)
@@ -48,8 +48,8 @@ foo:	file format ELF64-x86-64
 [0;33m
 0x0000006e: [0m[0;34m  DW_TAG_subprogram[0m
                 [0;36mDW_AT_low_pc[0m	([0;33m[0m0x00000000004004d0)
-                [0;36mDW_AT_high_pc[0m	(0x00000000004004ea)
-                [0;36mDW_AT_frame_base[0m	(DW_OP_reg7 RSP)
+                [0;36mDW_AT_high_pc[0m	(0x00000000004004f4)
+                [0;36mDW_AT_frame_base[0m	(DW_OP_reg6 RBP)
                 [0;36mDW_AT_name[0m	([0;33m[0m[0;32m"main"[0m)
                 [0;36mDW_AT_decl_file[0m	([0;32m"/home/jc/git_repos2/llir3/target.c"[0m)
                 [0;36mDW_AT_decl_line[0m	(7)
