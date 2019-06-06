@@ -2,9 +2,9 @@ source_filename = "target.c"
 target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
 
-declare void @llvm.dbg.declare(metadata, metadata, metadata)
+declare void @llvm.dbg.declare(metadata, metadata, metadata) nounwind readnone speculatable
 
-define i32 @foo(i32, i32) !dbg !7 {
+define i32 @foo(i32, i32) noinline nounwind optnone speculatable !dbg !7 {
 ; <label>:2
 	%3 = alloca i32, align 4
 	%4 = alloca i32, align 4
@@ -22,7 +22,7 @@ define i32 @foo(i32, i32) !dbg !7 {
 	ret i32 %9, !dbg !22
 }
 
-define i32 @main() !dbg !23 {
+define i32 @main() noinline nounwind optnone speculatable !dbg !23 {
 ; <label>:0
 	%1 = alloca i32, align 4
 	store i32 0, i32* %1, align 4

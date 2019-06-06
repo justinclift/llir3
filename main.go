@@ -52,6 +52,12 @@ func main() {
 		ir.NewParam("", types.Metadata),
 	)
 
+	// Add the function attributes
+	// ; Function Attrs: nounwind readnone speculatable
+	llvmDbgDeclare.FuncAttrs = append(llvmDbgDeclare.FuncAttrs, enum.FuncAttrNoUnwind)
+	llvmDbgDeclare.FuncAttrs = append(llvmDbgDeclare.FuncAttrs, enum.FuncAttrReadNone)
+	llvmDbgDeclare.FuncAttrs = append(llvmDbgDeclare.FuncAttrs, enum.FuncAttrSpeculatable)
+
 	// Define the "foo" function
 	//   `int foo(int a, int b)`
 	// define dso_local i32 @foo(i32, i32) #0 !dbg !7 {
@@ -61,6 +67,13 @@ func main() {
 	// define dso_local i32 @foo(i32, i32) #0 !dbg !7 {
 	fooFunc := m.NewFunc("foo", i32, aParam, bParam)
 	fooFunc.Metadata = append(fooFunc.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["SPFoo"]})
+
+	// Add the function attributes
+	// ; Function Attrs: noinline nounwind optnone uwtable
+	fooFunc.FuncAttrs = append(fooFunc.FuncAttrs, enum.FuncAttrNoInline)
+	fooFunc.FuncAttrs = append(fooFunc.FuncAttrs, enum.FuncAttrNoUnwind)
+	fooFunc.FuncAttrs = append(fooFunc.FuncAttrs, enum.FuncAttrOptNone)
+	fooFunc.FuncAttrs = append(fooFunc.FuncAttrs, enum.FuncAttrSpeculatable)
 
 	// Create LLVM Block, for containing the subsequent function code
 	fooEntry := fooFunc.NewBlock("")
@@ -131,6 +144,13 @@ func main() {
 	// define dso_local i32 @main() #0 !dbg !23 {
 	mainFunc := m.NewFunc("main", i32)
 	mainFunc.Metadata = append(mainFunc.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["SPMain"]})
+
+	// Add the function attributes
+	// ; Function Attrs: noinline nounwind optnone uwtable
+	mainFunc.FuncAttrs = append(mainFunc.FuncAttrs, enum.FuncAttrNoInline)
+	mainFunc.FuncAttrs = append(mainFunc.FuncAttrs, enum.FuncAttrNoUnwind)
+	mainFunc.FuncAttrs = append(mainFunc.FuncAttrs, enum.FuncAttrOptNone)
+	mainFunc.FuncAttrs = append(mainFunc.FuncAttrs, enum.FuncAttrSpeculatable)
 
 	// Create LLVM Block, for containing the subsequent function code
 	mainEntry := mainFunc.NewBlock("")
