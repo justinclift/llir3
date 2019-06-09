@@ -2035,6 +2035,7 @@ func addMetadata(m *ir.Module) {
 	dbgLoc["128"].InlinedAt = dbgLoc["130"]
 
 	// 	!131 = !DILocation(line: 0, scope: !129, inlinedAt: !130)
+	// TODO: Create a PR to fix the bug where "Line: 0" gets omitted
 	dbgLoc["131"] = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       0,
