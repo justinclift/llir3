@@ -160,7 +160,7 @@ func main() {
 
 	// 	; Function Attrs: optsize
 	// 	define void @_start() local_unnamed_addr #0 section ".text._start" !dbg !5 {
-	startFunc.UnnamedAddr = enum.UnnamedAddrUnnamedAddr
+	startFunc.UnnamedAddr = enum.UnnamedAddrLocalUnnamedAddr
 	startFunc.FuncAttrs = []ir.FuncAttribute{&atGrp0}
 	startFunc.Section = ".text._start"
 	startFunc.Metadata = append(startFunc.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["_start"]})
@@ -916,6 +916,7 @@ func addMetadata(m *ir.Module) {
 	dbgLoc["12"] = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       0,
+		LineValid:  true,
 		Scope:      diSubprogram_start,
 	}
 
@@ -1019,6 +1020,7 @@ func addMetadata(m *ir.Module) {
 	dbgLoc["24"] = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       0,
+		LineValid:  true,
 		Column:     13,
 		Scope:      diSubprogramRuntimeActivateTask13,
 	}
@@ -1097,6 +1099,7 @@ func addMetadata(m *ir.Module) {
 	dbgLoc["32"] = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       0,
+		LineValid:  true,
 		Scope:      diSubprogramRuntimeRunqueuePushBack27,
 		InlinedAt:  dbgLoc["30"],
 	}
@@ -1308,6 +1311,7 @@ func addMetadata(m *ir.Module) {
 	dbgLoc["53"] = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       0,
+		LineValid:  true,
 		Scope:      diSubprogramRuntimeCwaMain47,
 	}
 
@@ -1563,6 +1567,7 @@ func addMetadata(m *ir.Module) {
 	dbgLoc["80"] = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       0,
+		LineValid:  true,
 		Scope:      diSubprogramRuntimeMemset71,
 	}
 
@@ -1690,6 +1695,7 @@ func addMetadata(m *ir.Module) {
 	dbgLoc["94"] = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       0,
+		LineValid:  true,
 		Scope:      diSubprogramRuntimePrintnl90,
 	}
 
@@ -1790,6 +1796,7 @@ func addMetadata(m *ir.Module) {
 	dbgLoc["105"] = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       0,
+		LineValid:  true,
 		Scope:      diSubprogramRuntimePrintString95,
 	}
 
@@ -1892,6 +1899,7 @@ func addMetadata(m *ir.Module) {
 	dbgLoc["117"] = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       0,
+		LineValid:  true,
 		Scope:      diSubprogramRuntimePutchar111,
 	}
 
@@ -2035,6 +2043,7 @@ func addMetadata(m *ir.Module) {
 	dbgLoc["131"] = &metadata.DILocation{
 		MetadataID: -1,
 		Line:       0,
+		LineValid:  true,
 		Scope:      diSubprogramRuntimeAbort129,
 		InlinedAt:  dbgLoc["130"],
 	}
