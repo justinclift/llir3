@@ -1208,6 +1208,7 @@ func addMetadata(m *ir.Module) {
 		Line:       154,
 		Column:     42,
 		Scope:      diSubprogramRuntimeRunqueuePushBack27,
+		InlinedAt:  dbgLoc["30"],
 	}
 	dbgLoc["42"].InlinedAt = dbgLoc["43"]
 
