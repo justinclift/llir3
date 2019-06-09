@@ -23,13 +23,12 @@ func main() {
 			MetadataID: -1,
 		}
 		i8nullptr = constant.Null{Typ: types.I8Ptr}
-		i8zero    = constant.NewInt(types.I8, 0)
-		i32zero   = constant.NewInt(types.I32, 0)
 		null      = constant.NewNull(&types.PointerType{})
 		one       = constant.NewInt(types.I32, 1)
 		ten       = constant.NewInt(types.I8, 10)
 		twelve    = constant.NewInt(types.I32, 12)
 		thirteen  = constant.NewInt(types.I8, 13)
+		zero      = constant.NewInt(types.I32, 0)
 	)
 
 	// !DIExpression()
@@ -107,7 +106,7 @@ func main() {
 	globalRunQueueFront.Linkage = enum.LinkageInternal
 
 	// 	@runtime.stdout = internal unnamed_addr global i32 0
-	globalStdout := m.NewGlobalDef("runtime.stdout", i32zero)
+	globalStdout := m.NewGlobalDef("runtime.stdout", zero)
 	globalStdout.UnnamedAddr = enum.UnnamedAddrUnnamedAddr
 	globalStdout.Linkage = enum.LinkageInternal
 
@@ -384,7 +383,7 @@ func main() {
 	putCharVal0.Metadata = append(putCharVal0.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["116"]})
 
 	// 	store i32 0, i32* %.fca.0.gep, align 4, !dbg !116
-	putCharStor0 := putCharEntryBlock.NewStore(i32zero, putCharVal0)
+	putCharStor0 := putCharEntryBlock.NewStore(zero, putCharVal0)
 	putCharStor0.Align = 4
 	putCharStor0.Metadata = append(putCharStor0.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["116"]})
 
@@ -398,7 +397,7 @@ func main() {
 	putCharCall0.Metadata = append(putCharCall0.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["116"]})
 
 	// 	store i8 %0, i8* %stackalloc, align 4, !dbg !117
-	putCharStor1 := putCharEntryBlock.NewStore(i8zero, putCharBitCast0)
+	putCharStor1 := putCharEntryBlock.NewStore(putCharParam0, putCharBitCast0)
 	putCharStor1.Align = 4
 	putCharStor1.Metadata = append(putCharStor1.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["117"]})
 
@@ -459,7 +458,7 @@ func main() {
 	// 	%2 = phi i32 [ 0, %entry ], [ %6, %for.body ], !dbg !106
 	prtStrVal6 := &ir.InstAdd{}
 	prtStrVal6.LocalID = 6 // Manually set this here, as automatic calculation doesn't work when done this way
-	prtStrVal2 := prtStrForLoopBlock.NewPhi(ir.NewIncoming(i32zero, prtStrEntryBlock), ir.NewIncoming(prtStrVal6, prtStrForBodyBlock))
+	prtStrVal2 := prtStrForLoopBlock.NewPhi(ir.NewIncoming(zero, prtStrEntryBlock), ir.NewIncoming(prtStrVal6, prtStrForBodyBlock))
 	prtStrVal2.Metadata = append(prtStrVal2.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["106"]})
 
 	// 	%3 = icmp slt i32 %2, %1, !dbg !107
@@ -552,7 +551,7 @@ func main() {
 
 	// 	tail call fastcc void @runtime.printstring(i8* getelementptr inbounds ([12 x i8], [12 x i8]* @"main.go.main$string", i32 0, i32 0), i32 12), !dbg !50
 	// TODO: See if I can figure out how to get the resulting IR to be on one line, instead of split over two
-	cwaCall0 := cwaMainEntryBlock.NewCall(prtStrFunc, cwaMainEntryBlock.NewGetElementPtr(globalMain, i32zero, i32zero), twelve)
+	cwaCall0 := cwaMainEntryBlock.NewCall(prtStrFunc, cwaMainEntryBlock.NewGetElementPtr(globalMain, zero, zero), twelve)
 	cwaCall0.Tail = enum.TailTail
 	cwaCall0.CallingConv = enum.CallingConvFast
 	cwaCall0.Metadata = append(cwaCall0.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["50"]})
@@ -583,7 +582,7 @@ func main() {
 	// 	call void @llvm.dbg.value(metadata i8* getelementptr inbounds ([23 x i8], [23 x i8]* @"runtime.nilPanic$string", i32 0, i32 0), metadata !124, metadata !DIExpression(DW_OP_LLVM_fragment, 0, 32)), !dbg !125
 	// TODO: See if I can figure out how to get the resulting IR to be on one line, instead of split over two (there are several locations like this)
 	// TODO: Also check if the "inbounds" is being emitted when done in this way
-	runtimePanicCall0 := runtimePanicEntryBlock.NewCall(LLVMDbgValueFunc, &metadata.Value{Value: runtimePanicEntryBlock.NewGetElementPtr(globalNilPanic, i32zero, i32zero)}, &metadata.Value{Value: dbgLoc["msg"]}, &metadata.Value{Value: prtStrCall0DI})
+	runtimePanicCall0 := runtimePanicEntryBlock.NewCall(LLVMDbgValueFunc, &metadata.Value{Value: runtimePanicEntryBlock.NewGetElementPtr(globalNilPanic, zero, zero)}, &metadata.Value{Value: dbgLoc["msg"]}, &metadata.Value{Value: prtStrCall0DI})
 	runtimePanicCall0.Metadata = append(runtimePanicCall0.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["125"]})
 
 	// 	call void @llvm.dbg.value(metadata i32 23, metadata !124, metadata !DIExpression(DW_OP_LLVM_fragment, 32, 32)), !dbg !125
@@ -591,13 +590,13 @@ func main() {
 	runtimePanicCall1.Metadata = append(runtimePanicCall1.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["125"]})
 
 	// 	tail call fastcc void @runtime.printstring(i8* getelementptr inbounds ([22 x i8], [22 x i8]* @"runtime.runtimePanic$string", i32 0, i32 0), i32 22), !dbg !126
-	runtimePanicCall2 := runtimePanicEntryBlock.NewCall(prtStrFunc, runtimePanicEntryBlock.NewGetElementPtr(globalNilPanic, i32zero, i32zero), constant.NewInt(types.I32, 22))
+	runtimePanicCall2 := runtimePanicEntryBlock.NewCall(prtStrFunc, runtimePanicEntryBlock.NewGetElementPtr(globalNilPanic, zero, zero), constant.NewInt(types.I32, 22))
 	runtimePanicCall2.Tail = enum.TailTail
 	runtimePanicCall2.CallingConv = enum.CallingConvFast
 	runtimePanicCall2.Metadata = append(runtimePanicCall2.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["126"]})
 
 	// 	tail call fastcc void @runtime.printstring(i8* getelementptr inbounds ([23 x i8], [23 x i8]* @"runtime.nilPanic$string", i32 0, i32 0), i32 23), !dbg !127
-	runtimePanicCall3 := runtimePanicEntryBlock.NewCall(prtStrFunc, runtimePanicEntryBlock.NewGetElementPtr(globalNilPanic, i32zero, i32zero), constant.NewInt(types.I32, 23))
+	runtimePanicCall3 := runtimePanicEntryBlock.NewCall(prtStrFunc, runtimePanicEntryBlock.NewGetElementPtr(globalNilPanic, zero, zero), constant.NewInt(types.I32, 23))
 	runtimePanicCall3.Tail = enum.TailTail
 	runtimePanicCall3.CallingConv = enum.CallingConvFast
 	runtimePanicCall3.Metadata = append(runtimePanicCall3.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["127"]})
@@ -658,7 +657,7 @@ func main() {
 	getFuncPtrCall0.Metadata = append(getFuncPtrCall0.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["69"]})
 
 	// 	call void @llvm.dbg.value(metadata i32 0, metadata !67, metadata !DIExpression(DW_OP_LLVM_fragment, 32, 32)), !dbg !69
-	getFuncPtrCall1 := getFuncPtrEntryBlock.NewCall(LLVMDbgValueFunc, &metadata.Value{Value: i32zero}, &metadata.Value{Value: dbgLoc["LocalVarVal"]}, &metadata.Value{Value: prtStrCall1DI})
+	getFuncPtrCall1 := getFuncPtrEntryBlock.NewCall(LLVMDbgValueFunc, &metadata.Value{Value: zero}, &metadata.Value{Value: dbgLoc["LocalVarVal"]}, &metadata.Value{Value: prtStrCall1DI})
 	getFuncPtrCall1.Metadata = append(getFuncPtrCall1.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["69"]})
 
 	// 	call void @llvm.dbg.value(metadata i8* undef, metadata !68, metadata !DIExpression()), !dbg !69
@@ -712,7 +711,7 @@ func main() {
 	// 	%3 = phi i32 [ 0, %entry ], [ %7, %store.next ], !dbg !81
 	memSetFuncVal7 := &ir.InstAdd{}
 	memSetFuncVal7.LocalID = 7 // Manually set this here, as automatic calculation doesn't work when done this way
-	memSetFuncVal3 := memSetForLoopBlock.NewPhi(ir.NewIncoming(i32zero, memSetEntryBlock), ir.NewIncoming(memSetFuncVal7, memSetStoreNextBlock))
+	memSetFuncVal3 := memSetForLoopBlock.NewPhi(ir.NewIncoming(zero, memSetEntryBlock), ir.NewIncoming(memSetFuncVal7, memSetStoreNextBlock))
 	memSetFuncVal3.Metadata = append(memSetFuncVal3.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["81"]})
 
 	// 	%4 = icmp ult i32 %3, %2, !dbg !82
@@ -958,8 +957,8 @@ func addMetadata(m *ir.Module) {
 	diDerived17 := &metadata.DIDerivedType{
 		MetadataID:        -1,
 		Tag:               enum.DwarfTagPointerType,
-		Size:              4,
-		Align:             4,
+		Size:              32,
+		Align:             32,
 		DwarfAddressSpace: 0,
 	}
 	diTuple16.Fields = append(diTuple16.Fields, diDerived17)
@@ -976,7 +975,7 @@ func addMetadata(m *ir.Module) {
 	diBasicType19 := &metadata.DIBasicType{
 		MetadataID: -1,
 		Name:       "uint8",
-		Size:       1,
+		Size:       8,
 		Encoding:   enum.DwarfAttEncodingUnsigned,
 	}
 	diDerived18.BaseType = diBasicType19
@@ -1362,8 +1361,8 @@ func addMetadata(m *ir.Module) {
 	diComposite59 := &metadata.DICompositeType{
 		MetadataID: -1,
 		Tag:        enum.DwarfTagStructureType,
-		Size:       8,
-		Align:      4,
+		Size:       64,
+		Align:      32,
 	}
 	diDerived58.BaseType = diComposite59
 
@@ -1378,8 +1377,8 @@ func addMetadata(m *ir.Module) {
 		MetadataID: -1,
 		Tag:        enum.DwarfTagMember,
 		Name:       "context",
-		Size:       4,
-		Align:      4,
+		Size:       32,
+		Align:      32,
 	}
 	diTuple60.Fields = append(diTuple60.Fields, diDerived61)
 
@@ -1388,8 +1387,8 @@ func addMetadata(m *ir.Module) {
 		MetadataID:        -1,
 		Tag:               enum.DwarfTagPointerType,
 		Name:              "unsafe.Pointer",
-		Size:              4,
-		Align:             4,
+		Size:              32,
+		Align:             32,
 		DwarfAddressSpace: 0,
 		BaseType:          metadata.Null,
 	}
@@ -1400,9 +1399,9 @@ func addMetadata(m *ir.Module) {
 		MetadataID: -1,
 		Tag:        enum.DwarfTagMember,
 		Name:       "id",
-		Size:       4,
-		Align:      4,
-		Offset:     4,
+		Size:       32,
+		Align:      32,
+		Offset:     32,
 	}
 	diTuple60.Fields = append(diTuple60.Fields, diDerived63)
 
@@ -1410,19 +1409,19 @@ func addMetadata(m *ir.Module) {
 	diBasicType64 := &metadata.DIBasicType{
 		MetadataID: -1,
 		Name:       "uintptr",
-		Size:       4,
+		Size:       32,
 		Encoding:   enum.DwarfAttEncodingUnsigned,
 	}
 	diDerived63.BaseType = diBasicType64
 
 	// 	!65 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !19, size: 32, align: 32, dwarfAddressSpace: 0)
 	diDerived65 := &metadata.DIDerivedType{
-		MetadataID: -1,
-		Tag:        enum.DwarfTagPointerType,
-		BaseType:   diBasicType19,
-		Size:       4,
-		Align:      4,
-		Offset:     4,
+		MetadataID:        -1,
+		Tag:               enum.DwarfTagPointerType,
+		BaseType:          diBasicType19,
+		Size:              32,
+		Align:             32,
+		DwarfAddressSpace: 0,
 	}
 	diTuple57.Fields = append(diTuple57.Fields, diDerived65)
 
@@ -1506,7 +1505,7 @@ func addMetadata(m *ir.Module) {
 	diBasicType74 := &metadata.DIBasicType{
 		MetadataID: -1,
 		Name:       "byte",
-		Size:       1,
+		Size:       8,
 		Encoding:   enum.DwarfAttEncodingUnsigned,
 	}
 	diTuple73.Fields = append(diTuple73.Fields, diBasicType74, diBasicType64)
@@ -1732,8 +1731,8 @@ func addMetadata(m *ir.Module) {
 		MetadataID: -1,
 		Tag:        enum.DwarfTagStructureType,
 		Name:       "string",
-		Size:       8,
-		Align:      4,
+		Size:       64,
+		Align:      32,
 	}
 	diTuple97.Fields = append(diTuple97.Fields, diComposite98)
 
@@ -1749,8 +1748,8 @@ func addMetadata(m *ir.Module) {
 		Tag:        enum.DwarfTagMember,
 		Name:       "ptr",
 		BaseType:   diDerived65,
-		Size:       4,
-		Align:      4,
+		Size:       32,
+		Align:      32,
 	}
 	diTuple99.Fields = append(diTuple99.Fields, diDerived100)
 
@@ -1760,9 +1759,9 @@ func addMetadata(m *ir.Module) {
 		Tag:        enum.DwarfTagMember,
 		Name:       "len",
 		BaseType:   diBasicType64,
-		Size:       4,
-		Align:      4,
-		Offset:     4,
+		Size:       32,
+		Align:      32,
+		Offset:     32,
 	}
 	diTuple99.Fields = append(diTuple99.Fields, diDerived101)
 
