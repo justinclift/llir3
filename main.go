@@ -290,12 +290,9 @@ func main() {
 	activateTaskVal8 := activateTaskIfThenIBlock.NewBitCast(activateTaskVal7, types.NewPointer(types.NewFunc(types.Void, types.I8Ptr)))
 
 	// 	  tail call fastcc void %8(i8* nonnull %0), !dbg !33
-	// TODO: Get the "nonnull" to emit
-	//       https://github.com/llir/llvm/issues/88
-	// foo := ir.NewParam("", types.I8Ptr)
-	// foo.Attrs = []ir.ParamAttribute{enum.ParamAttrNonNull}
-	// call4 := ifThenIBlock.NewCall(val8, foo)
-	activateTaskCall2 := activateTaskIfThenIBlock.NewCall(activateTaskVal8, activateTaskParam0)
+	activateTaskParam0v2 := *activateTaskParam0 // We use a copy of the parameter, as we don't want the "nonnull" showing up in the function declaration
+	activateTaskParam0v2.Attrs = []ir.ParamAttribute{enum.ParamAttrNonNull}
+	activateTaskCall2 := activateTaskIfThenIBlock.NewCall(activateTaskVal8, &activateTaskParam0v2)
 	activateTaskCall2.Tail = enum.TailTail
 	activateTaskCall2.CallingConv = enum.CallingConvFast
 	activateTaskCall2.Metadata = append(activateTaskCall2.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["33"]})
@@ -364,7 +361,6 @@ func main() {
 
 	// 	; Function Attrs: optsize
 	// 	define internal fastcc void @runtime.putchar(i8) unnamed_addr #0 section ".text.runtime.putchar" !dbg !111 {
-	putCharParam0.Attrs = []ir.ParamAttribute{enum.ParamAttrNoCapture, enum.ParamAttrReadOnly}
 	putCharFunc.Linkage = enum.LinkageInternal
 	putCharFunc.CallingConv = enum.CallingConvFast
 	putCharFunc.UnnamedAddr = enum.UnnamedAddrUnnamedAddr
