@@ -6,9 +6,9 @@ target triple = "wasm32-unknown-unknown-wasm"
 @runtime.runqueueBack = internal unnamed_addr global i8* null
 @runtime.runqueueFront = internal unnamed_addr global i8* null
 @runtime.stdout = internal unnamed_addr global i32 0
-@"runtime.nilPanic$string" = internal unnamed_addr constant [23 x i8] c"nil pointer dereference"
-@"runtime.runtimePanic$string" = internal unnamed_addr constant [22 x i8] c"panic: runtime error: "
-@"main.go.main$string" = internal unnamed_addr constant [12 x i8] c"Hello world!"
+@runtime.nilPanic$string = internal unnamed_addr constant [23 x i8] c"nil pointer dereference"
+@runtime.runtimePanic$string = internal unnamed_addr constant [22 x i8] c"panic: runtime error: "
+@main.go.main$string = internal unnamed_addr constant [12 x i8] c"Hello world!"
 
 ; Function Attrs: optsize
 define void @_start() local_unnamed_addr #0 section ".text._start" !dbg !5 {
@@ -67,7 +67,7 @@ define void @cwa_main() local_unnamed_addr #0 section ".text.cwa_main" !dbg !47 
 entry:
   %0 = tail call i32 @io_get_stdout(), !dbg !48
   store i32 %0, i32* @runtime.stdout, align 4, !dbg !48
-  tail call fastcc void @runtime.printstring(i8* getelementptr inbounds ([12 x i8], [12 x i8]* @"main.go.main$string", i32 0, i32 0), i32 12), !dbg !50
+  tail call fastcc void @runtime.printstring(i8* getelementptr inbounds ([12 x i8], [12 x i8]* @main.go.main$string, i32 0, i32 0), i32 12), !dbg !50
   tail call fastcc void @runtime.printnl(), !dbg !50
   ret void, !dbg !53
 }
@@ -181,10 +181,10 @@ entry:
 ; Function Attrs: noreturn optsize
 define internal fastcc void @runtime.runtimePanic() unnamed_addr #1 section ".text.runtime.runtimePanic" !dbg !122 {
 entry:
-  call void @llvm.dbg.value(metadata i8* getelementptr inbounds ([23 x i8], [23 x i8]* @"runtime.nilPanic$string", i32 0, i32 0), metadata !124, metadata !DIExpression(DW_OP_LLVM_fragment, 0, 32)), !dbg !125
+  call void @llvm.dbg.value(metadata i8* getelementptr inbounds ([23 x i8], [23 x i8]* @runtime.nilPanic$string, i32 0, i32 0), metadata !124, metadata !DIExpression(DW_OP_LLVM_fragment, 0, 32)), !dbg !125
   call void @llvm.dbg.value(metadata i32 23, metadata !124, metadata !DIExpression(DW_OP_LLVM_fragment, 32, 32)), !dbg !125
-  tail call fastcc void @runtime.printstring(i8* getelementptr inbounds ([22 x i8], [22 x i8]* @"runtime.runtimePanic$string", i32 0, i32 0), i32 22), !dbg !126
-  tail call fastcc void @runtime.printstring(i8* getelementptr inbounds ([23 x i8], [23 x i8]* @"runtime.nilPanic$string", i32 0, i32 0), i32 23), !dbg !127
+  tail call fastcc void @runtime.printstring(i8* getelementptr inbounds ([22 x i8], [22 x i8]* @runtime.runtimePanic$string, i32 0, i32 0), i32 22), !dbg !126
+  tail call fastcc void @runtime.printstring(i8* getelementptr inbounds ([23 x i8], [23 x i8]* @runtime.nilPanic$string, i32 0, i32 0), i32 23), !dbg !127
   tail call fastcc void @runtime.printnl(), !dbg !127
   tail call void @llvm.trap() #5, !dbg !128
   unreachable, !dbg !131

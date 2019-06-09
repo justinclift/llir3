@@ -587,7 +587,7 @@ func main() {
 	// 	call void @llvm.dbg.value(metadata i8* getelementptr inbounds ([23 x i8], [23 x i8]* @"runtime.nilPanic$string", i32 0, i32 0), metadata !124, metadata !DIExpression(DW_OP_LLVM_fragment, 0, 32)), !dbg !125
 	// TODO: See if I can figure out how to get the resulting IR to be on one line, instead of split over two (there are several locations like this)
 	// TODO: Also check if the "inbounds" is being emitted when done in this way
-	runtimePanicCall0 := runtimePanicEntryBlock.NewCall(LLVMDbgValueFunc, runtimePanicEntryBlock.NewGetElementPtr(globalNilPanic, i32zero, i32zero), &metadata.Value{Value: dbgLoc["msg"]}, &metadata.Value{Value: prtStrCall0DI})
+	runtimePanicCall0 := runtimePanicEntryBlock.NewCall(LLVMDbgValueFunc, &metadata.Value{Value: runtimePanicEntryBlock.NewGetElementPtr(globalNilPanic, i32zero, i32zero)}, &metadata.Value{Value: dbgLoc["msg"]}, &metadata.Value{Value: prtStrCall0DI})
 	runtimePanicCall0.Metadata = append(runtimePanicCall0.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["125"]})
 
 	// 	call void @llvm.dbg.value(metadata i32 23, metadata !124, metadata !DIExpression(DW_OP_LLVM_fragment, 32, 32)), !dbg !125
@@ -658,9 +658,7 @@ func main() {
 	getFuncPtrEntryBlock := getFuncPtrFunc.NewBlock("entry")
 
 	// 	call void @llvm.dbg.value(metadata i8* null, metadata !67, metadata !DIExpression(DW_OP_LLVM_fragment, 0, 32)), !dbg !69
-	// TODO: Get the "null" to emit.  Might be the same problem as the "nonnull" bug:
-	//       https://github.com/llir/llvm/issues/88
-	getFuncPtrCall0 := getFuncPtrEntryBlock.NewCall(LLVMDbgValueFunc, &metadata.Value{Value: types.I8Ptr}, &metadata.Value{Value: dbgLoc["LocalVarVal"]}, &metadata.Value{Value: prtStrCall0DI})
+	getFuncPtrCall0 := getFuncPtrEntryBlock.NewCall(LLVMDbgValueFunc, &metadata.Value{Value: &i8nullptr}, &metadata.Value{Value: dbgLoc["LocalVarVal"]}, &metadata.Value{Value: prtStrCall0DI})
 	getFuncPtrCall0.Metadata = append(getFuncPtrCall0.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["69"]})
 
 	// 	call void @llvm.dbg.value(metadata i32 0, metadata !67, metadata !DIExpression(DW_OP_LLVM_fragment, 32, 32)), !dbg !69
@@ -668,9 +666,7 @@ func main() {
 	getFuncPtrCall1.Metadata = append(getFuncPtrCall1.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["69"]})
 
 	// 	call void @llvm.dbg.value(metadata i8* undef, metadata !68, metadata !DIExpression()), !dbg !69
-	// TODO: Get the "undef" to emit.  Might be the same problem as the "nonnull" bug:
-	//       https://github.com/llir/llvm/issues/88
-	getFuncPtrCall2 := getFuncPtrEntryBlock.NewCall(LLVMDbgValueFunc, &metadata.Value{Value: types.I8Ptr}, &metadata.Value{Value: dbgLoc["LocalVarSignature"]}, &metadata.Value{Value: emptyExpr})
+	getFuncPtrCall2 := getFuncPtrEntryBlock.NewCall(LLVMDbgValueFunc, &metadata.Value{Value: &i8nullptr}, &metadata.Value{Value: dbgLoc["LocalVarSignature"]}, &metadata.Value{Value: emptyExpr})
 	getFuncPtrCall2.Metadata = append(getFuncPtrCall2.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["69"]})
 
 	// 	tail call fastcc void @runtime.nilPanic(), !dbg !70
@@ -1394,6 +1390,7 @@ func addMetadata(m *ir.Module) {
 		Size:              4,
 		Align:             4,
 		DwarfAddressSpace: 0,
+		BaseType:          metadata.Null,
 	}
 	diDerived61.BaseType = diDerived62
 
