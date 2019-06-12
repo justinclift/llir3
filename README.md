@@ -21,9 +21,11 @@ To view the DWARF debugging sections, use `llvm-dwarfdump`:
 The goal is to add DWARF to Wasm binaries, so a working debugger for Wasm can
 be created.
 
-A working command to generate Wasm from the .ll is:
+To generate Wasm from the .ll:
 
-    $ clang --compile --target=wasm32-unknown-unknown-wasm -g -Wno-override-module -o foo.wasm foo.ll
+1. You first need to compile it to an object file with clang:
+
+    $ clang --compile --target=wasm32-unknown-unknown-wasm -g -Wno-override-module -o foo.o foo.ll
 
 Note that the `--compile` option to clang is required.  Without it, clang will
 attempt to link the Wasm for the current system, and fail:
@@ -35,3 +37,9 @@ wasm-ld: error: unable to find library -lc
 wasm-ld: error: cannot open /opt/llvm8-wasm/lib/clang/8.0.1/lib/libclang_rt.builtins-wasm32.a: No such file or directory
 clang-8: error: lld command failed with exit code 1 (use -v to see invocation)
 ```
+
+2. Then you need to link the object file using the wasm specific linker:
+
+    $ wasm-ld --allow-undefined --no-threads --export-all -o foo.wasm foo.o
+
+The resulting .wasm file should work, including in Firefox (tested).

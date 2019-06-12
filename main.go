@@ -407,7 +407,7 @@ func main() {
 	putCharLoad0.Metadata = append(putCharLoad0.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["118"]})
 
 	// 	%2 = call i32 @resource_write(i32 %1, i8* nonnull %stackalloc, i32 1), !dbg !119
-	// TODO: Get the "nonnull" to emit
+	// TODO: Get the "nonnull" to emit.  Related to this:
 	//       https://github.com/llir/llvm/issues/88
 	putCharCall1 := putCharEntryBlock.NewCall(resWriFunc, putCharLoad0, putCharBitCast0, one)
 	putCharCall1.Metadata = append(putCharCall1.Metadata, &metadata.Attachment{Name: "dbg", Node: dbgLoc["119"]})
